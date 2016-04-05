@@ -64,50 +64,50 @@
 				<form id="form1" autocomplete="on">
 					<div class="col-lg-6">
 					<div class="form-group">
-						<label>My first name is</label>
+						<label for="firstname">My first name is</label>
 						<input id="firstname" name="firstname" type="text" placeholder="enter your first name" class="form-control" autofocus required autocomplete="on">
 					</div>
 					<div class="form-group">
-						<label>My last name is</label>
+						<label for="lastname">My last name is</label>
 						<input id="lastname" name="lastname" type="text" placeholder="enter your last name" class="form-control" required autocomplete="on">
 					</div>	
 					<div class="form-group">
-						<label>My email address is</label>
+						<label for="email">My email address is</label>
 						<input id="email" name="email" type="email" placeholder="test@example.com" class="form-control" required autocomplete="email">
 					</div>	
 					<div class="form-group">
-						<label>My password is</label> <a href="#" data-toggle="tooltip" data-placement="top" title="Password should be :
+						<label for="firstpw">My password is</label> <a href="#" data-toggle="tooltip" data-placement="top" title="Password should be :
 	8-50 characters (longer is better)
 	At least one of these symbols : !, @, #, $, %, ^, &, *
 	At least one number
 	At least one lowercase letter
 	At least one uppercase letter">(*)</a>
-						<input id="first" name="firstpw" type="password" placeholder="enter a password" class="form-control" required>
+						<input id="firstpw" name="firstpw" type="password" placeholder="enter a password" class="form-control" required>
 					</div>
 					<div class="form-group">
-						<label>Confirm my password</label>
-						<input id="second" name="secondpw" type="password" placeholder="re-enter the password" class="form-control" required>
+						<label for="secondpw">Confirm my password</label>
+						<input id="secondpw" name="secondpw" type="password" placeholder="re-enter the password" class="form-control" required>
 					</div>
 					</div>
 					<div class="col-lg-6">
 					<div class="form-group">
-						<label>My birthday is on</label>
+						<label for="birthdate">My birthday is on</label>
 						<input id="birthdate" name="birthdate" type="date" placeholder="mm/dd/yyyy"class="form-control" autocomplete="on">
 					</div>
 					<div class="form-group">
-						<label>My job title is</label>
+						<label for="zip">My job title is</label>
 						<input id="zip" type="text" placeholder="enter your job title" class="form-control" autocomplete="on">
 					</div>		
 					<div class="form-group">
-						<label>I work for</label>
+						<label for="company">I work for</label>
 						<input id="company" type="text" placeholder="enter your employer's name" class="form-control" autocomplete="on">
 					</div>
 					<div class="form-group">
-						<label>City</label>
+						<label for="city">City</label>
 						<input id="city" type="text" placeholder="enter your city name" class="form-control" autocomplete="on">
 					</div>	
 					<div class="form-group">
-						<label>State</label>
+						<label for="state">State</label>
 						<input id="state" type="text" placeholder="enter your state name" class="form-control" autocomplete="on">
 					</div>	
 				</div>
@@ -135,7 +135,7 @@
 	<script>
 	jQuery.validator.addMethod("password", function(value, element) {
 	return this.optional(element) || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,50}/.test(value);
-	}, "Password should be 8-50 characters long and contain at least 1 each of :number, lowercase letter, upercase letter, symbol(!@#$%^&*)");
+	}, "Password should be 8-50 characters long and contain at least 1 each of :number, lowercase letter, uppercase letter, symbol(!@#$%^&*)");
 	</script>
 	
 	
