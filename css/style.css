@@ -1,10 +1,8 @@
-body{
-padding-top:100px;
-}
-.form-group{
-padding:0 10px;
-}
+body {
+  padding-top: 100px; }
 
-.error{
-color:red;
-}
+.form-group {
+  padding: 0 10px; }
+
+.error {
+  color: red; }

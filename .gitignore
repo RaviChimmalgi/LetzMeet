@@ -1,0 +1,11 @@
+node_modules/
+bower_components/
+.DS_store
+.sass_cache
+.env
+dist/
+<<<<<<< HEAD
+*debug.log
+=======
+*debug.log
+>>>>>>> origin/master

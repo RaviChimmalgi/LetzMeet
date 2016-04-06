@@ -64,12 +64,12 @@
 				<form id="form1" autocomplete="on">
 					<div class="col-lg-6">
 					<div class="form-group">
-						<label>What is the name of your event?</label>
+						<label for="eventname">What is the name of the event?</label>
 						<input id="eventname" name="eventname" type="text" placeholder="enter event name" class="form-control" autofocus required autocomplete="on">
 					</div>
 					<div class="form-group">
-						<label>What kind of event are you hosting?</label>
-						<input list="eventtypes" id ="eventtype" name="myEvents" placeholder="enter event type" class="form-control" required>
+						<label for="eventtype">What kind of event is it?</label>
+						<input list="eventtypes" id ="eventtype" name="eventtype" placeholder="enter event type" class="form-control" required>
 						<datalist id="eventtypes">
 						  <option value="Party">
 						  <option value="Meeting">
@@ -78,35 +78,37 @@
 						</datalist>
 					</div>
 					<div class="form-group">
-						<label>Who is hosting the event?</label>
-						<input id="hostname" type="text" placeholder="enter name of event host" class="form-control" required autocomplete="on">
+						<label for="hostname">Who is hosting the event?</label>
+						<input id="hostname" name="hostname" type="text" placeholder="enter name of event host" class="form-control" required autocomplete="on">
 					</div>
 					<div class="form-group">
-						<label>When does the event start?</label>
-						<input id="startdatetime" type="text" placeholder="dd/mm/yyyy hh:mm AM/PM" class="form-control" required autocomplete="on">
+						<label for="startdatetime">When does the event start?</label>
+						<a href="#" data-toggle="tooltip" data-placement="top" title="Format : mm/dd/yyyy hh:mm AM/PM">(*)</a>
+						<input id="startdatetime" name="startdatetime" type="datetime-local" placeholder="mm/dd/yyyy hh:mm AM/PM" class="form-control" required autocomplete="on">
 					</div>
 					<div class="form-group">
-						<label>When does the event end?</label>
-						<input id="enddatetime" type="text" placeholder="dd/mm/yyy hh:mm AM/PM" class="form-control" required autocomplete="on">
+						<label for="enddatetime">When does the event end?</label>
+						<a href="#" data-toggle="tooltip" data-placement="top" title="Format : mm/dd/yyyy hh:mm AM/PM">(*)</a>
+						<input id="enddatetime" name="enddatetime" type="datetime-local" placeholder="mm/dd/yyyy hh:mm AM/PM" class="form-control" required autocomplete="on">
 					</div>
 					</div>
 					<div class="col-lg-6">
 					
 					<div class="form-group">
-						<label>Where is the location of the event?</label>
+						<label for="location">Where is the location of the event?</label>
 						<input id="location" name="location" type="text" placeholder="enter event location" class="form-control" required autocomplete="on">
 						
 					</div>
 					
 					<div class="form-group">
-						<label>Who are invited?</label>
-						<textarea id="guestlist" type="text" placeholder="enter guest email list" rows="3" class="form-control" autocomplete="on"></textarea>
+						<label for="guestlist">Who are invited?</label>
+						<textarea id="guestlist" name="guestlist" type="text" placeholder="enter guest email list" rows="3" class="form-control" required autocomplete="on"></textarea>
 					</div>		
 					
 					
 					<div class="form-group">
-						<label>Any message for the guests?</label>
-						<textarea id="guestmessage" type="text" placeholder="enter optional message" rows="6" class="form-control" autocomplete="on"></textarea>
+						<label for="guestmessage">Any message for the guests?</label>
+						<textarea id="guestmessage" name="guestmessage" type="text" placeholder="enter optional message" rows="6" class="form-control" autocomplete="on"></textarea>
 					</div>
 
 					
@@ -159,12 +161,24 @@
 var myDataRef = new Firebase('https://scorching-heat-3796.firebaseio.com/eventlist');	
 $(document).ready(function() {
 
+jQuery.validator.addMethod("greaterThan", function(value, element, params){
+if (!/Invalid|NaN/.test(new Date(value))) {
+        return new Date(value) > new Date($(params).val());
+}
+});    
+
     $("#form1").validate({
         onchange: function(e) {
             this.element(e);
-        }		
+        },
+		rules: {
+				enddatetime:{ required:true, greaterThan: '#startdatetime'}
+				},
+		messages: {
+					enddatetime:{greaterThan:"End time should be later than start time."}
+					}
     });
-});
+
 
 	
 	
@@ -173,7 +187,7 @@ $(document).ready(function() {
 	
 	if($("#form1").valid()){
 	
-	alert('valid');
+	//alert('valid');
 	var eventname = $('#eventname').val();
 	var eventtype = $('#eventtype').val();
 	var eventhost =  $('#hostname').val();
@@ -183,24 +197,24 @@ $(document).ready(function() {
 	var guestlist =  $('#guestlist').val();
 	var guestmessage = $('#guestmessage').val();
 	
-	if ($('#startdatetime').val() == '') {
-      alert("You must pick an event start date & time");   
-      return false; 
-    }
-	else if ($('#enddatetime').val() == '') {
-      alert("You must pick an event end date & time");   
-      return false; 
-    }
-	else{
-	alert('Event '+eventname+' has been created successfuly!');
+	
+	
+	//if($('#startdatetime').val() >= $('#enddatetime').val()) {
+		//alert("Error Event end time should be later than start time");
+		//return false;
+	//}
+	//else{
+	
 	myDataRef.child(eventname).set({eventname: eventname, eventtype: eventtype, eventhost: eventhost, eventlocation: eventlocation, eventstarttime: eventstarttime, eventendtime: eventendtime, guestlist: guestlist, guestmessage: guestmessage});
+	alert('Event \''+eventname+'\' has been created successfuly!');
+	window.location.replace = "index.html";
+	//}
 	}
-	}
-	//alert($("#form1").query("field{isValid()==false}"));
+});
 });
 	</script>
 	
-	<script>
+	<!--<script>
 	jQuery('#startdatetime').datetimepicker();
 	jQuery('#enddatetime').datetimepicker();
 	var today = new Date();
@@ -212,7 +226,7 @@ $(document).ready(function() {
     $("#startdatetime").datetimepicker({
         
 		formatTime:'g:i a',
-		format: 'd/m/Y h:i A',
+		format: 'm/d/Y h:i A',
 		minDate: 0,
 		minTime: 0,
 		step: 15
@@ -223,13 +237,13 @@ $(document).ready(function() {
 	
     $("#enddatetime").datetimepicker({        
 		formatTime:'g:i a',
-		format: 'd/m/Y h:i A',
+		format: 'm/d/Y h:i A',
         step: 15
 		
      });
 	 
 	
-	</script>
+	</script>-->
 
 	
   </body>
