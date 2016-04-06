@@ -4,4 +4,8 @@ bower_components/
 .sass_cache
 .env
 dist/
+<<<<<<< HEAD
 *debug.log
+=======
+*debug.log
+>>>>>>> origin/master
