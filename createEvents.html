@@ -13,13 +13,28 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    
+
 	<link href="css/style.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css"/ >
     <!-- Custom styles for this template -->
     <link href="css/navbar-fixed-top.css" rel="stylesheet">
 <script src='https://cdn.firebase.com/js/client/2.4.1/firebase.js'></script>
-  
+
+<script>
+var ref = new Firebase('https://scorching-heat-3796.firebaseio.com');
+  ref.onAuth(authDataCallback);
+
+  function authDataCallback(authData) {
+    if (authData) {
+      console.log("User " + authData.uid + " is logged in with " + authData.provider);
+
+    } else {
+      console.log("User is logged out");
+    window.location.href="index.html"
+    }
+  }
+</script>
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -27,7 +42,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body style="display:none">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -46,11 +61,12 @@
             <li><a href="index.html">Home</a></li>
             <li class="active"><a href="createEvents.html">Create Event</a></li>
             <li><a href="myEvents.html">My Events</a></li>
-           
+
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="">Login</a></li>
-			<li><a href="register.html">Sign-up</a></li>
+            <li id="lout"><a href="">Logout</a></li>
+          <!--  <li><a href="login.html">Login</a></li>
+			      <li><a href="register.html">Sign-up</a></li>-->
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -93,32 +109,32 @@
 					</div>
 					</div>
 					<div class="col-lg-6">
-					
+
 					<div class="form-group">
 						<label for="location">Where is the location of the event?</label>
 						<input id="location" name="location" type="text" placeholder="enter event location" class="form-control" required autocomplete="on">
-						
+
 					</div>
-					
+
 					<div class="form-group">
 						<label for="guestlist">Who are invited?</label>
 						<textarea id="guestlist" name="guestlist" type="text" placeholder="enter guest email list" rows="3" class="form-control" required autocomplete="on"></textarea>
-					</div>		
-					
-					
+					</div>
+
+
 					<div class="form-group">
 						<label for="guestmessage">Any message for the guests?</label>
 						<textarea id="guestmessage" name="guestmessage" type="text" placeholder="enter optional message" rows="6" class="form-control" autocomplete="on"></textarea>
 					</div>
 
-					
-					
+
+
 				</div>
-				
+
 				</div>
 				<div style="text-align:center">
 				<input id="submit" type="submit" value="Create Event" class="btn btn-lg btn-info text-center"></div>
-				</form> 
+				</form>
 				</div>
 <div class="col-lg-2"></div>
 
@@ -131,7 +147,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js"></script>
-	
+
 	<script src="js/jquery.js"></script>
 	<script src="js/jquery.datetimepicker.full.min.js"></script>
 
@@ -147,25 +163,27 @@
                 var mesg = "Address: " + address;
                 mesg += "\nLatitude: " + latitude;
                 mesg += "\nLongitude: " + longitude;
-                
+
             });
         });
     </script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
-	
-	
-	
+
+
+
 	<script>
+$('body').css('display','block');
 
-
-var myDataRef = new Firebase('https://scorching-heat-3796.firebaseio.com/eventlist');	
+var myDataRef = new Firebase('https://scorching-heat-3796.firebaseio.com/eventlist');
 $(document).ready(function() {
+
+
 
 jQuery.validator.addMethod("greaterThan", function(value, element, params){
 if (!/Invalid|NaN/.test(new Date(value))) {
         return new Date(value) > new Date($(params).val());
 }
-});    
+});
 
     $("#form1").validate({
         onchange: function(e) {
@@ -180,13 +198,13 @@ if (!/Invalid|NaN/.test(new Date(value))) {
     });
 
 
-	
-	
+
+
 	$('#submit').on('click', function() {
     $("#form1").valid();
-	
+
 	if($("#form1").valid()){
-	
+
 	//alert('valid');
 	var eventname = $('#eventname').val();
 	var eventtype = $('#eventtype').val();
@@ -196,15 +214,15 @@ if (!/Invalid|NaN/.test(new Date(value))) {
 	var eventendtime = $('#enddatetime').val();
 	var guestlist =  $('#guestlist').val();
 	var guestmessage = $('#guestmessage').val();
-	
-	
-	
+
+
+
 	//if($('#startdatetime').val() >= $('#enddatetime').val()) {
 		//alert("Error Event end time should be later than start time");
 		//return false;
 	//}
 	//else{
-	
+
 	myDataRef.child(eventname).set({eventname: eventname, eventtype: eventtype, eventhost: eventhost, eventlocation: eventlocation, eventstarttime: eventstarttime, eventendtime: eventendtime, guestlist: guestlist, guestmessage: guestmessage});
 	alert('Event \''+eventname+'\' has been created successfuly!');
 	window.location.replace = "index.html";
@@ -212,8 +230,20 @@ if (!/Invalid|NaN/.test(new Date(value))) {
 	}
 });
 });
+
+
+var ref = new Firebase('https://scorching-heat-3796.firebaseio.com');
+
+$("#lout").on("click", function(){
+ref.unauth();
+window.location.href="index.html";
+});
+
+
+
+
 	</script>
-	
+
 	<!--<script>
 	jQuery('#startdatetime').datetimepicker();
 	jQuery('#enddatetime').datetimepicker();
@@ -221,30 +251,30 @@ if (!/Invalid|NaN/.test(new Date(value))) {
 	var selecteddate = new Date();
 	var selectedTime;
 
-	
+
 	$(document).ready(function(){
     $("#startdatetime").datetimepicker({
-        
+
 		formatTime:'g:i a',
 		format: 'm/d/Y h:i A',
 		minDate: 0,
 		minTime: 0,
 		step: 15
-		
-    });
-});	
 
-	
-    $("#enddatetime").datetimepicker({        
+    });
+});
+
+
+    $("#enddatetime").datetimepicker({
 		formatTime:'g:i a',
 		format: 'm/d/Y h:i A',
         step: 15
-		
+
      });
-	 
-	
+
+
 	</script>-->
 
-	
+
   </body>
 </html>

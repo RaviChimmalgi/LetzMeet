@@ -13,12 +13,26 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    
+
 
     <!-- Custom styles for this template -->
     <link href="css/navbar-fixed-top.css" rel="stylesheet">
+<script src='https://cdn.firebase.com/js/client/2.4.1/firebase.js'></script>
 
-  
+<script>
+var ref = new Firebase('https://scorching-heat-3796.firebaseio.com');
+  ref.onAuth(authDataCallback);
+
+  function authDataCallback(authData) {
+    if (authData) {
+      console.log("User " + authData.uid + " is logged in with " + authData.provider);
+
+    } else {
+      console.log("User is logged out");
+    window.location.href="index.html"
+    }
+  }
+</script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -45,12 +59,13 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="createEvents.html">Create Event</a></li>
             <li class="active"><a href="myEvents.html">My Events</a></li>
-           
+
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="">Login</a></li>
-			<li><a href="register.html">Sign-up</a></li>
+            <li id="lout"><a href="">Logout</a></li>
+          <!--  <li><a href="login.html">Login</a></li>
+			      <li><a href="register.html">Sign-up</a></li>-->
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -60,7 +75,7 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div>
-        
+
       </div>
 
     </div> <!-- /container -->
@@ -72,6 +87,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js"></script>
-    
+
+    <script>
+
+
+    $("#lout").on("click", function(){
+    ref.unauth();
+    window.location.href="index.html";
+    });
+
+
+    </script>
   </body>
 </html>

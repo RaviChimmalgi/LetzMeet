@@ -44,12 +44,12 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="index.html">Home</a></li>
-            <li><a href="createEvents.html">Create Event</a></li>
-            <li><a href="myEvents.html">My Events</a></li>
+            <!--<li><a href="createEvents.html">Create Event</a></li>-->
+            <!--<li><a href="myEvents.html">My Events</a></li>-->
 
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="">Login</a></li>
+            <li><a href="login.html">Login</a></li>
 			<li class="active"><a href="register.html">Sign-up</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -178,12 +178,12 @@ var userProfileRef = new Firebase('https://scorching-heat-3796.firebaseio.com/us
       var employer = $("#company").val();
       var city = $("#city").val();
       var state = $("#state").val();
-
+      var pw = $("#firstpw").val();
 
 
       ref.createUser({
         email    : emailid,
-        password : $("#firstpw").val()
+        password : pw
       }, function(error, userData) {
         if (error) {
           console.log("Error creating user:", error);
@@ -194,6 +194,19 @@ var userProfileRef = new Firebase('https://scorching-heat-3796.firebaseio.com/us
           alert('User has been created successfuly!');
         }
       });
+
+      ref.authWithPassword({
+    email    : emailid,
+    password : pw
+  }, function(error, authData) {
+    if (error) {
+      console.log("Login Failed!", error);
+    } else {
+      console.log("Authenticated successfully with payload:", authData);
+      window.location.href = "file:///C:/Users/rave/Documents/GitHub/LetzMeet/index.html";
+    }
+  });
+
 
     }
     //return false;
