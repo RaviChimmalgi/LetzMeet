@@ -58,10 +58,9 @@ var ref = new Firebase('https://scorching-heat-3796.firebaseio.com');
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.html">Home</a></li>
-            <li class="active"><a href="createEvents.html">Create Event</a></li>
+            <li><a href="index.html">Events</a></li>
             <li><a href="myEvents.html">My Events</a></li>
-
+            <li class="active"><a href="createEvents.html">Create Event</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li id="lout"><a href="">Logout</a></li>
@@ -200,7 +199,8 @@ if (!/Invalid|NaN/.test(new Date(value))) {
 
 
 
-	$('#submit').on('click', function() {
+	$('#submit').on('click', function(e) {
+    e.preventDefault();
     $("#form1").valid();
 
 	if($("#form1").valid()){
@@ -225,7 +225,7 @@ if (!/Invalid|NaN/.test(new Date(value))) {
 
 	myDataRef.child(authData.uid).child(eventname).set({eventname: eventname, eventtype: eventtype, eventhost: eventhost, eventlocation: eventlocation, eventstarttime: eventstarttime, eventendtime: eventendtime, guestlist: guestlist, guestmessage: guestmessage});
 	alert('Event \''+eventname+'\' has been created successfuly!');
-	window.location.replace = "index.html";
+	window.location.href = "myEvents.html";
 	//}
 	}
 });
