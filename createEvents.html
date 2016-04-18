@@ -214,7 +214,7 @@ if (!/Invalid|NaN/.test(new Date(value))) {
 	var eventendtime = $('#enddatetime').val();
 	var guestlist =  $('#guestlist').val();
 	var guestmessage = $('#guestmessage').val();
-
+  var authData = ref.getAuth();
 
 
 	//if($('#startdatetime').val() >= $('#enddatetime').val()) {
@@ -223,7 +223,7 @@ if (!/Invalid|NaN/.test(new Date(value))) {
 	//}
 	//else{
 
-	myDataRef.child(eventname).set({eventname: eventname, eventtype: eventtype, eventhost: eventhost, eventlocation: eventlocation, eventstarttime: eventstarttime, eventendtime: eventendtime, guestlist: guestlist, guestmessage: guestmessage});
+	myDataRef.child(authData.uid).child(eventname).set({eventname: eventname, eventtype: eventtype, eventhost: eventhost, eventlocation: eventlocation, eventstarttime: eventstarttime, eventendtime: eventendtime, guestlist: guestlist, guestmessage: guestmessage});
 	alert('Event \''+eventname+'\' has been created successfuly!');
 	window.location.replace = "index.html";
 	//}
