@@ -99,13 +99,18 @@ ref.onAuth(authDataCallback);
 
 var myDataRef = new Firebase('https://scorching-heat-3796.firebaseio.com/eventlist');
 
-myDataRef.on("child_added", function(snapshot, prevChildKey) {
-var event = snapshot.val();
 
-displayChatMessage(event.eventname, event.eventtype, event.eventhost, event.eventlocation, event.eventstarttime, event.eventendtime, event.guestlist, event.guestmessage);
+myDataRef.once("value", function(snapshot) {
+snapshot.forEach(function(childsnapshot){
+childsnapshot.forEach(function(eventsnapshot){
+var event = eventsnapshot.val();
+
+displayEvents(event.eventname, event.eventtype, event.eventhost, event.eventlocation, event.eventstarttime, event.eventendtime, event.guestlist, event.guestmessage);
       });
+});
+});
 
-  function displayChatMessage(eventname, eventtype, eventhost, eventlocation, eventstarttime, eventendtime, guestlist, guestmessage) {
+  function displayEvents(eventname, eventtype, eventhost, eventlocation, eventstarttime, eventendtime, guestlist, guestmessage) {
 
   var starttime = new Date(eventstarttime);
   var endtime = new Date(eventendtime);
@@ -130,6 +135,7 @@ displayChatMessage(event.eventname, event.eventtype, event.eventhost, event.even
 		$('<div/>').text(guestmessage).prepend($('<strong/>').text('Message for Guests: ')).appendTo($('#eventsDiv'));
 
       };
+
 });
 
 

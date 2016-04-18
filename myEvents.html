@@ -14,7 +14,7 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-
+      <link href="css/style.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/navbar-fixed-top.css" rel="stylesheet">
 <script src='https://cdn.firebase.com/js/client/2.4.1/firebase.js'></script>
@@ -73,10 +73,11 @@ var ref = new Firebase('https://scorching-heat-3796.firebaseio.com');
 
     <div class="container">
 
-      <!-- Main component for a primary marketing message or call to action -->
-      <div>
-
-      </div>
+      <div class="col-lg-2"></div>
+      <div id="eventsDiv" class="col-lg-8 well">
+  	<div style="text-align:center"><strong>My Events</strong></div>
+  	</div>
+  	<div class="col-lg-2"></div>
 
     </div> <!-- /container -->
 
@@ -94,6 +95,51 @@ var ref = new Firebase('https://scorching-heat-3796.firebaseio.com');
     $("#lout").on("click", function(){
     ref.unauth();
     window.location.href="index.html";
+    });
+
+
+    var ref = new Firebase('https://scorching-heat-3796.firebaseio.com');
+    var authData = ref.getAuth();
+    $(document).ready(function() {
+
+
+      // Register the callback to be fired every time auth state changes
+
+    ref.onAuth(authDataCallback);
+
+    var myDataRef = new Firebase('https://scorching-heat-3796.firebaseio.com/eventlist/'+authData.uid);
+
+    myDataRef.on("child_added", function(snapshot, prevChildKey) {
+    var event = snapshot.val();
+
+    displayEvents(event.eventname, event.eventtype, event.eventhost, event.eventlocation, event.eventstarttime, event.eventendtime, event.guestlist, event.guestmessage);
+          });
+
+      function displayEvents(eventname, eventtype, eventhost, eventlocation, eventstarttime, eventendtime, guestlist, guestmessage) {
+
+      var starttime = new Date(eventstarttime);
+      var endtime = new Date(eventendtime);
+      var options = { weekday: "long", year: "numeric", month: "short",
+        day: "numeric", hour: "numeric", minute: "numeric", hour12: "true", timeZone: "UTC" };
+    		$('<hr style=" height: 12px;border: 0;box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);"/>').appendTo($('#eventsDiv'));
+
+            $('<div/>').text(eventname).prepend($('<strong/>').text('Name: ')).appendTo($('#eventsDiv'));
+    		$('<br />').appendTo($('#eventsDiv'));
+    		$('<div/>').text(eventtype).prepend($('<strong/>').text('Type: ')).appendTo($('#eventsDiv'));
+            $('<br />').appendTo($('#eventsDiv'));
+    		$('<div/>').text(eventhost).prepend($('<strong/>').text('Host: ')).appendTo($('#eventsDiv'));
+            $('<br />').appendTo($('#eventsDiv'));
+    		$('<div/>').text(eventlocation).prepend($('<strong/>').text('Location: ')).appendTo($('#eventsDiv'));
+            $('<br />').appendTo($('#eventsDiv'));
+    		$('<div/>').text(starttime.toLocaleString("en-US", options)).prepend($('<strong/>').text('Start Time: ')).appendTo($('#eventsDiv'));
+            $('<br />').appendTo($('#eventsDiv'));
+    		$('<div/>').text(endtime.toLocaleString("en-US", options)).prepend($('<strong/>').text('End Time: ')).appendTo($('#eventsDiv'));
+            $('<br />').appendTo($('#eventsDiv'));
+    		$('<div/>').text(guestlist).prepend($('<strong/>').text('Guests Invited: ')).appendTo($('#eventsDiv'));
+            $('<br />').appendTo($('#eventsDiv'));
+    		$('<div/>').text(guestmessage).prepend($('<strong/>').text('Message for Guests: ')).appendTo($('#eventsDiv'));
+
+          };
     });
 
 
