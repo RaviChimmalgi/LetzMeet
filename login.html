@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>LetzMeet</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/navbar-fixed-top.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<script src='https://cdn.firebase.com/js/client/2.4.1/firebase.js'></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">LetzMeet</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a></li>
+            <!--<li><a href="createEvents.html">Create Event</a></li>
+            <li><a href="myEvents.html">My Events</a></li>-->
+
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="login.html">Login</a></li>
+			      <li><a href="register.html">Sign-up</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="col-lg-2"></div>
+      <div class="col-lg-8 ">
+	<div class="row well">
+    <form id="form1" autocomplete="on">
+      <div class="form-group">
+        <label for="username">Email:</label>
+        <input id="username" name="username" type="email" placeholder="test@example.com" class="form-control" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="pw">Password:</label>
+        <input id="pw" name="pw" type="password" placeholder="enter your LetzMeet password" class="form-control" required>
+      </div>
+
+      <div style="text-align:center">
+      <input id="login" type="submit" value="Login" class="btn btn-lg btn-info text-center"></div>
+
+    </form>
+
+    </div>
+    <div class="row">
+    <div id="alert" class="alert" role="alert">
+       <h4 id="alert-title"></h4>
+
+      <p id="alert-detail"></p>
+  </div>
+</div>
+  </div>
+<div class="col-lg-2"></div>
+</div> <!-- /container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="js/bootstrap.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+<script>
+
+// validate fields on change
+$(document).ready(function() {
+  $("#form1").validate({
+      onchange: function(e) {
+          this.element(e);
+      }
+  });
+});
+
+var alertBox = $('#alert');
+
+$("#login").on("click", function(e) {
+  e.preventDefault();
+  $("#form1").valid();
+
+  if($("#form1").valid()){
+
+var ref = new Firebase('https://scorching-heat-3796.firebaseio.com');
+var username = $("#username").val();
+var pw = $("#pw").val();
+var pass = true;
+var errormsg;
+ref.authWithPassword({
+email    : username,
+password : pw
+}, function(error, authData) {
+if (error) {
+console.log("Login Failed!", error);
+
+showAlert({
+                title: error.code,
+                detail: error.message,
+                className: 'alert-danger'
+            });
+//alert(error);
+
+} else {
+console.log("Authenticated successfully with payload:", authData);
+window.location.href = "index.html";
+
+}
+});
+
+}
+
+
+
+
+});
+
+function showAlert(opts) {
+      var title = opts.title;
+      var detail = opts.detail;
+      var className = 'alert ' + opts.className;
+
+      alertBox.removeClass().addClass(className);
+      alertBox.children('#alert-title').text(title);
+      alertBox.children('#alert-detail').text(detail);
+  }
+
+</script>
+
+</body>
+</html>

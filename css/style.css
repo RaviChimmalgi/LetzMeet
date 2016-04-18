@@ -6,3 +6,14 @@ body {
 
 .error {
   color: red; }
+
+
+.hide {
+  display: none;
+  visibility: hidden;
+}
+
+.show {
+  display: block;
+  visibility: visible;
+}
