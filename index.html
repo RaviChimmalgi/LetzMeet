@@ -43,10 +43,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li id= "cEvnts" class=""><a href="createEvents.html">Create Event</a></li>
+            <li class="active"><a href="index.html">Events</a></li>
             <li id= "mEvnts" class=""><a href="myEvents.html">My Events</a></li>
-
+            <li id= "cEvnts" class=""><a href="createEvents.html">Create Event</a></li>
+            
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li id= "lin" class=""><a href="login.html">Login</a></li>
@@ -99,13 +99,18 @@ ref.onAuth(authDataCallback);
 
 var myDataRef = new Firebase('https://scorching-heat-3796.firebaseio.com/eventlist');
 
-myDataRef.on("child_added", function(snapshot, prevChildKey) {
-var event = snapshot.val();
 
-displayChatMessage(event.eventname, event.eventtype, event.eventhost, event.eventlocation, event.eventstarttime, event.eventendtime, event.guestlist, event.guestmessage);
+myDataRef.once("value", function(snapshot) {
+snapshot.forEach(function(childsnapshot){
+childsnapshot.forEach(function(eventsnapshot){
+var event = eventsnapshot.val();
+
+displayEvents(event.eventname, event.eventtype, event.eventhost, event.eventlocation, event.eventstarttime, event.eventendtime, event.guestlist, event.guestmessage);
       });
+});
+});
 
-  function displayChatMessage(eventname, eventtype, eventhost, eventlocation, eventstarttime, eventendtime, guestlist, guestmessage) {
+  function displayEvents(eventname, eventtype, eventhost, eventlocation, eventstarttime, eventendtime, guestlist, guestmessage) {
 
   var starttime = new Date(eventstarttime);
   var endtime = new Date(eventendtime);
@@ -130,6 +135,7 @@ displayChatMessage(event.eventname, event.eventtype, event.eventhost, event.even
 		$('<div/>').text(guestmessage).prepend($('<strong/>').text('Message for Guests: ')).appendTo($('#eventsDiv'));
 
       };
+
 });
 
 
