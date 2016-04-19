@@ -13,12 +13,13 @@ Project objective was to build a responsive web application which allows users t
 The app can be accessed here: http://ravichimmalgi.github.io/LetzMeet/index.html
 
 ## Using the app
-- Mock register using the form on the register page
-- Create events on the create event page
-- View all events created on the home page
+- Login if you registered already or register using the form on the 'register' page
+- Registering will auto log you in
+- Create events on the 'create event' page
+- View events created by all users on the 'events' page
+- View events created by you on 'my events' page
 
-## Issues
-Login/Logout and My Events functionalty has not been implemented yet.
+
 
 ## Installation
 
